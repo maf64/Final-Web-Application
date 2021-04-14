@@ -6,6 +6,32 @@ from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
 
 app = Flask(__name__)
+events = [
+    {
+        'todo' : 'Visit Tokyo',
+        'date' : '2021-05-14',
+    },
+    {
+        'todo' : 'Visit New York',
+        'date' : '2021-05-20',
+    },
+{
+        'todo' : 'Visit Mexico City',
+        'date' : '2021-05-25',
+    },
+{
+        'todo' : 'Visit Beijing',
+        'date' : '2021-05-11',
+    },
+{
+        'todo' : 'Visit Lima',
+        'date' : '2021-05-30',
+    },
+    {
+        'todo': 'Visit Moscow',
+        'date': '2021-04-21',
+    }
+]
 mysql = MySQL(cursorclass=DictCursor)
 
 app.config['MYSQL_DATABASE_HOST'] = 'db'
@@ -14,7 +40,6 @@ app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_DB'] = 'citiesData'
 mysql.init_app(app)
-
 
 @app.route('/', methods=['GET'])
 def index():
@@ -136,6 +161,14 @@ def api_delete(city_id) -> str:
     resp = Response(status=200, mimetype='application/json')
     return resp
 
+@app.route('/')
+def home():
+    return render_template('layout.html')
+
+@app.route('/calendar')
+def calendar():
+    return render_template('calendar.html',
+    events = events)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
