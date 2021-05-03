@@ -1,5 +1,6 @@
 from typing import List, Dict
 import simplejson as json
+import loginManager
 from flask import Flask, request, Response, redirect
 from flask import render_template
 from flaskext.mysql import MySQL
@@ -43,11 +44,11 @@ mysql.init_app(app)
 
 @app.route('/', methods=['GET'])
 def index():
-    user = {'username': 'Cities Project'}
+    #user = {'username': 'test Cities Project'}
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM tblCitiesImport')
     result = cursor.fetchall()
-    return render_template('index.html', title='Home', user=user, cities=result)
+    return render_template('index.html', title='Home',  cities=result)
 
 
 @app.route('/view/<int:city_id>', methods=['GET'])
@@ -102,6 +103,32 @@ def form_delete_post(city_id):
     mysql.get_db().commit()
     return redirect("/", code=302)
 
+@app.route('/login', methods=['GET'])
+def form_login_get():
+    return render_template('login.html', title='Login')
+
+@app.route('/login', methods=['POST'])
+def form_login_post():
+    error = None
+    inputData = (request.form.get('username'),request.form.get('Password'))
+    print(inputData.__str__())
+    user = request.form['username']
+    psw = request.form['Password']
+    print(user + psw)
+    print("hello", "name")
+    if user != 'ea' and psw != 'ea':
+        error = "Not a valid credentials"
+        return render_template('login.html', title='Login', error=error)
+    else:
+        cursor = mysql.get_db().cursor()
+        cursor.execute('SELECT * FROM tblCitiesImport')
+        result = cursor.fetchall()
+        return render_template('index.html', title='Home', cities=result)
+
+
+
+
+# API
 
 @app.route('/api/v1/cities', methods=['GET'])
 def api_browse() -> str:
