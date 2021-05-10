@@ -12,24 +12,24 @@ events = [
         'date' : '2021-05-14',
     },
     {
-        'todo' : 'Visit New York',
+        'todo' : 'Visit Buenos Aires',
         'date' : '2021-05-20',
     },
-{
-        'todo' : 'Visit Mexico City',
-        'date' : '2021-05-25',
-    },
-{
-        'todo' : 'Visit Beijing',
-        'date' : '2021-05-11',
-    },
-{
-        'todo' : 'Visit Lima',
-        'date' : '2021-05-30',
+    {
+        'todo' : 'Visit Monterey Bay',
+        'date' : '2021-06-03',
     },
     {
-        'todo': 'Visit Moscow',
-        'date': '2021-04-21',
+        'todo' : 'Visit New York',
+        'date' : '2021-05-18',
+    },
+    {
+        'todo' : 'Visit Dublin',
+        'date' : '2021-05-24',
+    },
+    {
+        'todo' : 'Visit Mexico City',
+        'date' : '2021-05-22',
     }
 ]
 mysql = MySQL(cursorclass=DictCursor)
