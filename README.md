@@ -1,5 +1,5 @@
 # Project Description
-This project is a homework assignment to teach how to get Pycharm setup with Docker, Flask, MySql, and Postman. We've collaborated on this project so we can each add a unique feature to work seamlessly with the web-application.
+This project is a final to teach how to get Pycharm setup with Docker, Flask, MySql, and Postman. We've collaborated on this project so we can each add a unique feature to work seamlessly with the web-application.
 
 # Project Team
 This project consisted of two teammates myself Marcos Fermin, and Emad Abdel hamid
