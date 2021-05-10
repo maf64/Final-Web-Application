@@ -71,9 +71,9 @@ def form_update_post(city_id):
     cursor = mysql.get_db().cursor()
     inputData = (request.form.get('fldName'), request.form.get('fldLat'), request.form.get('fldLong'),
                  request.form.get('fldCountry'), request.form.get('fldAbbreviation'),
-                 request.form.get('fldCapitalStatus'), request.form.get('fldPopulation'), city_id)
+                 request.form.get('fldCapitalStatus'), request.form.get('fldPopulation'), request.form.get('fldDates'), city_id)
     sql_update_query = """UPDATE tblCitiesImport t SET t.fldName = %s, t.fldLat = %s, t.fldLong = %s, t.fldCountry = 
-    %s, t.fldAbbreviation = %s, t.fldCapitalStatus = %s, t.fldPopulation = %s WHERE t.id = %s """
+    %s, t.fldAbbreviation = %s, t.fldCapitalStatus = %s, t.fldPopulation = %s, t.fldDates = %s WHERE t.id = %s """
     cursor.execute(sql_update_query, inputData)
     mysql.get_db().commit()
     return redirect("/", code=302)
@@ -88,8 +88,8 @@ def form_insert_post():
     cursor = mysql.get_db().cursor()
     inputData = (request.form.get('fldName'), request.form.get('fldLat'), request.form.get('fldLong'),
                  request.form.get('fldCountry'), request.form.get('fldAbbreviation'),
-                 request.form.get('fldCapitalStatus'), request.form.get('fldPopulation'))
-    sql_insert_query = """INSERT INTO tblCitiesImport (fldName,fldLat,fldLong,fldCountry,fldAbbreviation,fldCapitalStatus,fldPopulation) VALUES (%s, %s,%s, %s,%s, %s,%s) """
+                 request.form.get('fldCapitalStatus'), request.form.get('fldPopulation'), request.form.get('fldDates'))
+    sql_insert_query = """INSERT INTO tblCitiesImport (fldName,fldLat,fldLong,fldCountry,fldAbbreviation,fldCapitalStatus,fldPopulation, fldDates) VALUES (%s, %s,%s, %s,%s, %s,%s,%s) """
     cursor.execute(sql_insert_query, inputData)
     mysql.get_db().commit()
     return redirect("/", code=302)
@@ -129,9 +129,9 @@ def api_edit(city_id) -> str:
     content = request.json
     inputData = (content['fldName'], content['fldLat'], content['fldLong'],
                  content['fldCountry'], content['fldAbbreviation'],
-                 content['fldCapitalStatus'], content['fldPopulation'],city_id)
+                 content['fldCapitalStatus'], content['fldPopulation'], content['fldDates'], city_id)
     sql_update_query = """UPDATE tblCitiesImport t SET t.fldName = %s, t.fldLat = %s, t.fldLong = %s, t.fldCountry = 
-        %s, t.fldAbbreviation = %s, t.fldCapitalStatus = %s, t.fldPopulation = %s WHERE t.id = %s """
+        %s, t.fldAbbreviation = %s, t.fldCapitalStatus = %s, t.fldPopulation = %s, t.fldDates = %s WHERE t.id = %s """
     cursor.execute(sql_update_query, inputData)
     mysql.get_db().commit()
     resp = Response(status=200, mimetype='application/json')
@@ -145,8 +145,8 @@ def api_add() -> str:
     cursor = mysql.get_db().cursor()
     inputData = (content['fldName'], content['fldLat'], content['fldLong'],
                  content['fldCountry'], content['fldAbbreviation'],
-                 content['fldCapitalStatus'], request.form.get('fldPopulation'))
-    sql_insert_query = """INSERT INTO tblCitiesImport (fldName,fldLat,fldLong,fldCountry,fldAbbreviation,fldCapitalStatus,fldPopulation) VALUES (%s, %s,%s, %s,%s, %s,%s) """
+                 content['fldCapitalStatus'], content['fldDates'], request.form.get('fldPopulation'))
+    sql_insert_query = """INSERT INTO tblCitiesImport (fldName,fldLat,fldLong,fldCountry,fldAbbreviation,fldCapitalStatus,fldPopulation, fldDates) VALUES (%s, %s,%s, %s,%s, %s,%s,%s) """
     cursor.execute(sql_insert_query, inputData)
     mysql.get_db().commit()
     resp = Response(status=201, mimetype='application/json')
