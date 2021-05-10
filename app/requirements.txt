@@ -1,3 +1,6 @@
 Flask
 flask-mysql
 simplejson
+flask-login
+wtforms
+werkzeug
