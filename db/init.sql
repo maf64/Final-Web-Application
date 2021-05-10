@@ -1,6 +1,16 @@
 CREATE DATABASE citiesData;
 use citiesData;
 
+CREATE TABLE IF NOT EXISTS userLoging (
+    `id` int AUTO_INCREMENT,
+    `username` VARCHAR(21) CHARACTER SET utf8,
+    `password` VARCHAR(21) CHARACTER SET utf8,
+    `email` VARCHAR(100) CHARACTER SET utf8,
+    `isActive` TINYINT,
+    UNIQUE (email),
+    PRIMARY KEY (`id`)
+);
+INSERT INTO userLoging (username, password, email, isActive) VALUES ('ea', 'ea', 'eaa38@njit.edu', 1);
 CREATE TABLE IF NOT EXISTS tblCitiesImport (
     `id` int AUTO_INCREMENT,
     `fldName` VARCHAR(21) CHARACTER SET utf8,
