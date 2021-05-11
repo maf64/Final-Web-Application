@@ -23,14 +23,14 @@ CREATE TABLE IF NOT EXISTS tblCitiesImport (
     `fldDates` VARCHAR(21) CHARACTER SET utf8,
     PRIMARY KEY (`id`)
 );
-INSERT INTO tblCitiesImport (fldName,fldLat,fldLong,fldCountry,fldAbbreviation,fldCapitalStatus,fldPopulation, fldDates) VALUES
-    ('Tokyo',35.685,139.7514,'Japan','JPN','primary',35676000,),
-    ('New York',40.6943,-73.9249,'United States','USA','NA',19354922,),
-    ('Mexico City',19.4424,-99.131,'Mexico','MEX','primary',19028000,),
-    ('Los Angeles',34.1139,-118.4068,'United States','USA','NA',12815475,),
-    ('Dhaka',23.7231,90.4086,'Bangladesh','BGD','primary',12797394,),
-    ('Buenos Aires',-34.6025,-58.3975,'Argentina','ARG','primary',1234345,),
-    ('Cairo',30.05,31.25,'Egypt','EGY','primary',11893000,),
+INSERT INTO tblCitiesImport (fldName,fldLat,fldLong,fldCountry,fldAbbreviation,fldCapitalStatus,fldPopulation) VALUES
+    ('Tokyo',35.685,139.7514,'Japan','JPN','primary',35676000),
+    ('New York',40.6943,-73.9249,'United States','USA','NA',19354922),
+    ('Mexico City',19.4424,-99.131,'Mexico','MEX','primary',19028000),
+    ('Los Angeles',34.1139,-118.4068,'United States','USA','NA',12815475),
+    ('Dhaka',23.7231,90.4086,'Bangladesh','BGD','primary',12797394),
+    ('Buenos Aires',-34.6025,-58.3975,'Argentina','ARG','primary',12795000),
+    ('Cairo',30.05,31.25,'Egypt','EGY','primary',11893000),
     ('Beijing',39.9289,116.3883,'China','CHN','primary',11106000),
     ('Manila',14.6042,120.9822,'Philippines','PHL','primary',11100000),
     ('Moscow',55.7522,37.6155,'Russia','RUS','primary',10452000),

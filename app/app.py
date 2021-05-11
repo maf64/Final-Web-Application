@@ -5,11 +5,11 @@ from flask import render_template
 from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
 
-#from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length
-#from flask_sqlalchemy  import SQLAlchemy
+from flask_sqlalchemy  import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
@@ -180,18 +180,30 @@ def calendar():
     events = events)
 
 # login
-#bootstrap = Bootstrap(app)
-db = MySQL(cursorclass=DictCursor)
+
+app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////mnt/c/Users/antho/Documents/login-example/database.db'
+bootstrap = Bootstrap(app)
+#db = MySQL(cursorclass=DictCursor)
+db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+#db.init_app(app)
 
-class User(UserMixin, mysql.Model):
-    id = mysql.Column(mysql.Integer, primary_key=True)
-    email = mysql.Column(mysql.String(100), unique=True)
-    password = mysql.Column(mysql.String(21))
-    username = mysql.Column(mysql.String(21))
-    isActive = mysql.Column(mysql.Integer)
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(15), unique=True)
+    password = db.Column(db.String(80))
+    email = db.Column(db.String(50), unique=True)
+    isActive = db.Column(db.Integer)
+
+# class User(UserMixin, mysql.Model):
+#     id = mysql.Column(mysql.Integer, primary_key=True)
+#     username = mysql.Column(mysql.String(15), unique=True)
+#     email = mysql.Column(mysql.String(50), unique=True)
+#     password = mysql.Column(mysql.String(80))
+#     isActive = mysql.Column(mysql.Integer)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -208,9 +220,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
