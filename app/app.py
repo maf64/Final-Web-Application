@@ -13,6 +13,8 @@ from flask_sqlalchemy  import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
+#from sqlalchemy.ext.declarative import declarative_base
+#from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 events = [
@@ -182,10 +184,13 @@ def calendar():
 # login
 
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////mnt/c/Users/antho/Documents/login-example/database.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////mnt/c/Users/antho/Documents/login-example/database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@db/citiesData'
+
 bootstrap = Bootstrap(app)
 #db = MySQL(cursorclass=DictCursor)
 db = SQLAlchemy(app)
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -230,10 +235,10 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user:
             if check_password_hash(user.password, form.password.data):
-                login_user(user, remember=form.remember.data)
-                return redirect(url_for('dashboard'))
+                #login_user(user, remember=form.remember.data)
+                return redirect(url_for('index'))
 
-        return '<h1>Invalid username or password</h1>'
+        #return '<h1>Invalid username or password</h1>'
         #return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
 
     return render_template('login.html', form=form)

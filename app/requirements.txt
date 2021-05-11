@@ -8,3 +8,4 @@ werkzeug
 flask-sqlalchemy
 email_validator
 flask-bootstrap
+mysqlclient
