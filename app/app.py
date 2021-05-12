@@ -239,7 +239,7 @@ class RegisterForm(FlaskForm):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-
+    msgr=''
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user:
@@ -251,16 +251,18 @@ def login():
                 result = cursor.fetchall()
                 return render_template('index.html', title='Home',  # user=user,
                                        cities=result, user = user)
-    #msgr = 'Invalid username or password'
+        else:
+            msgr = 'Invalid username or password'
         #return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
 
-    return render_template('login.html', form=form #, msgr = msgr
+    return render_template('login.html', form=form , msgr = msgr
                                                )
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = RegisterForm()
-
+    formL = LoginForm()
+    msgs =''
     if form.validate_on_submit():
         hashed_password = generate_password_hash(form.password.data, method='sha256')
         new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
@@ -268,6 +270,7 @@ def signup():
         db.session.commit()
 
         msgs = 'New user has been created!'
+        return render_template('login.html', form=formL, msgs=msgs)
         #return '<h1>' + form.username.data + ' ' + form.email.data + ' ' + form.password.data + '</h1>'
     #else: msgs = None
     return render_template('signup.html', form=form)
