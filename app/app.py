@@ -54,11 +54,14 @@ mysql.init_app(app)
 
 @app.route('/', methods=['GET'])
 def index():
-    user = {'username': 'Cities Project'}
-    cursor = mysql.get_db().cursor()
-    cursor.execute('SELECT * FROM tblCitiesImport')
-    result = cursor.fetchall()
-    return render_template('index.html', title='Home', user=user, cities=result)
+    #user = {'username': 'Cities Project'}
+    #user = None
+    # cursor = mysql.get_db().cursor()
+    # cursor.execute('SELECT * FROM tblCitiesImport')
+    # result = cursor.fetchall()
+    return render_template('index.html', title='Home' #,user=user,
+                           #,cities=result
+                           )
 
 
 @app.route('/view/<int:city_id>', methods=['GET'])
@@ -178,8 +181,17 @@ def home():
 
 @app.route('/calendar')
 def calendar():
+    cur = mysql.get_db().cursor()
+    cur.execute('SELECT * FROM tblCitiesImport where fldDates != null')
+    row_headers = [x[0] for x in cur.description]  # this will extract row headers
+    rv = cur.fetchall()
+    json_data = []
+    for result in rv:
+        json_data.append(dict(zip(row_headers, result)))
+    #return json.dumps(json_data)
+    print(json_data)
     return render_template('calendar.html',
-    events = events)
+    events = json_data)
 
 # login
 
@@ -224,9 +236,6 @@ class RegisterForm(FlaskForm):
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
 
-
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -236,12 +245,17 @@ def login():
         if user:
             if check_password_hash(user.password, form.password.data):
                 #login_user(user, remember=form.remember.data)
-                return redirect(url_for('index'))
-
-        #return '<h1>Invalid username or password</h1>'
+                #return redirect(url_for('index', user = user))
+                cursor = mysql.get_db().cursor()
+                cursor.execute('SELECT * FROM tblCitiesImport')
+                result = cursor.fetchall()
+                return render_template('index.html', title='Home',  # user=user,
+                                       cities=result, user = user)
+    #msgr = 'Invalid username or password'
         #return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
 
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form #, msgr = msgr
+                                               )
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -253,21 +267,17 @@ def signup():
         db.session.add(new_user)
         db.session.commit()
 
-        return '<h1>New user has been created!</h1>'
+        msgs = 'New user has been created!'
         #return '<h1>' + form.username.data + ' ' + form.email.data + ' ' + form.password.data + '</h1>'
-
+    #else: msgs = None
     return render_template('signup.html', form=form)
 
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    return render_template('dashboard.html', name=current_user.username)
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return render_template('index.html', title='Home')
 
 
 
