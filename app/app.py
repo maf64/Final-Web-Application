@@ -13,6 +13,8 @@ from flask_sqlalchemy  import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
+from flask_mail import Mail, Message
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 #from sqlalchemy.ext.declarative import declarative_base
 #from flask.ext.sqlalchemy import SQLAlchemy
 
@@ -44,6 +46,10 @@ events = [
     }
 ]
 mysql = MySQL(cursorclass=DictCursor)
+
+app.config.from_pyfile('config.cfg')
+mail = Mail(app)
+s = URLSafeTimedSerializer('Thisisasecret!')
 
 app.config['MYSQL_DATABASE_HOST'] = 'db'
 app.config['MYSQL_DATABASE_USER'] = 'root'
@@ -215,13 +221,6 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(50), unique=True)
     isActive = db.Column(db.Integer)
 
-# class User(UserMixin, mysql.Model):
-#     id = mysql.Column(mysql.Integer, primary_key=True)
-#     username = mysql.Column(mysql.String(15), unique=True)
-#     email = mysql.Column(mysql.String(50), unique=True)
-#     password = mysql.Column(mysql.String(80))
-#     isActive = mysql.Column(mysql.Integer)
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -270,11 +269,41 @@ def signup():
         db.session.commit()
 
         msgs = 'New user has been created!'
+
+        # send confirmation email
+        email = form.email.data
+        token = s.dumps(email, salt='email-confirm')
+        msg = Message('Confirm Email', sender='emadamahdy@gmail.com', recipients=[email])
+
+        link = url_for('confirm_email', token=token, email=email, _external=True)
+
+        msg.body = 'Your link is {}'.format(link)
+
+        mail.send(msg)
+
         return render_template('login.html', form=formL, msgs=msgs)
         #return '<h1>' + form.username.data + ' ' + form.email.data + ' ' + form.password.data + '</h1>'
     #else: msgs = None
     return render_template('signup.html', form=form)
 
+@app.route('/confirm_email/<token>')
+def confirm_email(token):
+    formL = LoginForm()
+    try:
+        email = s.loads(token, salt='email-confirm', max_age=3600)
+    except SignatureExpired:
+        msgs ='The token is expired!'
+        return render_template('login.html', form=formL, msgs=msgs)
+
+    print('testing print')
+    print('this is my email: ' + request.args.get('email'))
+    user = User.query.filter_by(email=request.args.get('email')).first()
+    cursor = mysql.get_db().cursor()
+    sql_activate_query = """update user set isActive = 1 where email = %s """
+    cursor.execute(sql_activate_query, request.args.get('email'))
+    mysql.get_db().commit()
+    msgs ='The token works!'
+    return render_template('login.html', form=formL, msgs=msgs)
 
 @app.route('/logout')
 @login_required

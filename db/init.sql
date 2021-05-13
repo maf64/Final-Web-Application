@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS user (
     UNIQUE (email),
     PRIMARY KEY (`id`)
 );
--- INSERT INTO user (username, password, email, isActive) VALUES ('emad', 'Emadmahdy1', 'eaa38@njit.edu', 1);
 CREATE TABLE IF NOT EXISTS tblCitiesImport (
     `id` int AUTO_INCREMENT,
     `fldName` VARCHAR(21) CHARACTER SET utf8,
