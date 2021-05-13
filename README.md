@@ -40,11 +40,11 @@ The user can now add a certain city with all its details and the trip date, once
 Home Page: 
 
 User Creating Data:
-![Pycharm data query](./images/image3.PNG)
+![Pycharm data query](./images/image3.png)
 Home Page Updated:
-![Pycharm data query](./images/image13.PNG)
+![Pycharm data query](./images/image13.png)
 Updated Database: 
-![Pycharm data query](./images/image1.PNG)
+![Pycharm data query](./images/image1.png)
 
 Emad’s Feature:
 
@@ -53,29 +53,29 @@ This feature allows the user to create an account which information will be stor
 The process of signing up and logging in is described below with screenshots;
  
 Index.html does not display cities for unauthenticated users
-![Pycharm data query](./images/image2.PNG)
+![Pycharm data query](./images/image2.png)
 Login page
-![Pycharm data query](./images/image9.PNG)
+![Pycharm data query](./images/image9.png)
 Form validation
-![Pycharm data query](./images/image12.PNG)
+![Pycharm data query](./images/image12.png)
 Unsuccessful authentication:
-![Pycharm data query](./images/image18.PNG)
+![Pycharm data query](./images/image18.png)
 After successful authentication:
-![Pycharm data query](./images/image10.PNG)
+![Pycharm data query](./images/image10.png)
 Signup page;
-![Pycharm data query](./images/image16.PNG)
-![Pycharm data query](./images/image17.PNG)
+![Pycharm data query](./images/image16.png)
+![Pycharm data query](./images/image17.png)
 User created successfully:
-![Pycharm data query](./images/image14.PNG)
+![Pycharm data query](./images/image14.png)
 Confirmation email:
-![Pycharm data query](./images/image7.PNG)
+![Pycharm data query](./images/image7.png)
 Clicking on the confirmation email:
-![Pycharm data query](./images/image8.PNG)
+![Pycharm data query](./images/image8.png)
 User has been activated in the DB
-![Pycharm data query](./images/image6.PNG)
+![Pycharm data query](./images/image6.png)
 Login with the new user:
-![Pycharm data query](./images/image4.PNG)
+![Pycharm data query](./images/image4.png)
 Successful login with new user:
-![Pycharm data query](./images/image5.PNG)
+![Pycharm data query](./images/image5.png)
 User stored in DB with hashed password:
-![Pycharm data query](./images/image11.PNG)
+![Pycharm data query](./images/image11.png)
