@@ -9,3 +9,5 @@ flask-sqlalchemy
 email_validator
 flask-bootstrap
 mysqlclient
+flask_mail
+itsdangerous

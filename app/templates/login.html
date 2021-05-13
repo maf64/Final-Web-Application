@@ -12,8 +12,8 @@ Login
 {% endblock %}
 
 {% block content %}
-{% if msgS %}<div class="alert alert-success"><strong>{{ msg }}</strong></div>{% endif %}
-{% if msgR %}<div class="alert alert-danger"><strong>{{ msg }}</strong></div> {% endif %}
+{% if msgs %}<div class="alert alert-success"><strong>{{ msgs }}</strong></div>{% endif %}
+{% if msgr %}<div class="alert alert-danger"><strong>{{ msgr }}</strong></div> {% endif %}
 
     <div class="container">
 
@@ -26,6 +26,9 @@ Login
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button><br>
 
       </form>
-        <button type="button" class="btn btn-lg btn-primary btn-block" href="/signup">Sign up</button>
+        <form action="/signup">
+            <button type="submit" class="btn btn-lg btn-primary btn-block">Sign up</button>
+        </form>
+
     </div> <!-- /container -->
 {% endblock %}
